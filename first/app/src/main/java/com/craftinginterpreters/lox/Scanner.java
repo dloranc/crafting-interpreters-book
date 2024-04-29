@@ -112,10 +112,12 @@ class Scanner {
         break;
 
       case '/':
-        if (match('/')) {
+        if (peekNext() == '/') {
           // A comment goes until the end of the line.
           while (peek() != '\n' && !isAtEnd())
             advance();
+        } else if (peek() == '*') {
+          multilineComment();
         } else {
           addToken(TokenType.SLASH);
         }
@@ -144,6 +146,33 @@ class Scanner {
           Lox.error(line, "Unexpected character.");
         }
         break;
+    }
+  }
+
+  private void multilineComment() {
+    advance();
+
+    while (peek() != '*' && !isAtEnd()) {
+      if (peek() == '\n') {
+        line++;
+      }
+      advance();
+    }
+
+    if (isAtEnd()) {
+      Lox.error(line, "Unterminated multiline comment.");
+      return;
+    }
+
+    advance();
+
+    if (isAtEnd()) {
+      Lox.error(line, "Unterminated multiline comment.");
+      return;
+    }
+
+    if (peek() == '/') {
+      advance();
     }
   }
 
