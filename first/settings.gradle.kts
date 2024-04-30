@@ -11,4 +11,4 @@ plugins {
 }
 
 rootProject.name = "first"
-include("app")
+include("app", "tool")
