@@ -22,9 +22,33 @@ class Parser {
   }
 
   private Expr expression() {
-    Expr expr = equality();
+    Expr expr = ternary();
 
     while (match(TokenType.COMMA)) {
+      Token operator = previous();
+      Expr right = ternary();
+      expr = new Expr.Binary(expr, operator, right);
+    }
+
+    return expr;
+  }
+
+  private Expr ternary() {
+    Expr expr = equality();
+
+    while (match(TokenType.QUESTION_MARK)) {
+      Token operator = previous();
+      Expr right = ternary_branches();
+      expr = new Expr.Binary(expr, operator, right);
+    }
+
+    return expr;
+  }
+
+  private Expr ternary_branches() {
+    Expr expr = expression();
+
+    while (match(TokenType.COLON)) {
       Token operator = previous();
       Expr right = equality();
       expr = new Expr.Binary(expr, operator, right);
