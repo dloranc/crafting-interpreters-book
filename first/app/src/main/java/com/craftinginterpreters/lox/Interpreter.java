@@ -1,13 +1,20 @@
 package com.craftinginterpreters.lox;
 
-class Interpreter implements Expr.Visitor<Object> {
-  public void interpret(Expr expression) {
+import java.util.List;
+
+class Interpreter implements Expr.Visitor<Object>, Stmt.Visitor<Void> {
+  public void interpret(List<Stmt> statements) {
     try {
-      Object value = evaluate(expression);
-      System.out.println(stringify(value));
+      for (Stmt statement : statements) {
+        execute(statement);
+      }
     } catch (RuntimeError error) {
       Lox.runtimeError(error);
     }
+  }
+
+  private void execute(Stmt stmt) {
+    stmt.accept(this);
   }
 
   private String stringify(Object object) {
@@ -86,7 +93,7 @@ class Interpreter implements Expr.Visitor<Object> {
         checkNumberOperands(expr.operator, left, right);
         if ((double) right == 0) {
           throw new RuntimeError(expr.operator,
-            "Division by zero.");
+              "Division by zero.");
         }
         return (double) left / (double) right;
     }
@@ -126,6 +133,19 @@ class Interpreter implements Expr.Visitor<Object> {
     }
 
     // Unreachable.
+    return null;
+  }
+
+  @Override
+  public Void visitExpressionStmt(Stmt.Expression stmt) {
+    evaluate(stmt.expression);
+    return null;
+  }
+
+  @Override
+  public Void visitPrintStmt(Stmt.Print stmt) {
+    Object value = evaluate(stmt.expression);
+    System.out.println(stringify(value));
     return null;
   }
 
