@@ -57,11 +57,19 @@ class Interpreter implements Expr.Visitor<Object> {
         if (left instanceof Double && right instanceof Double) {
           return (double) left + (double) right;
         }
+
         if (left instanceof String && right instanceof String) {
           return (String) left + (String) right;
         }
 
-        throw new RuntimeError(expr.operator, "Operands must be two numbers or two strings.");
+        if ((left instanceof String && right instanceof Double)
+            || (left instanceof Double && right instanceof String)) {
+          return stringifyDouble(left.toString()) +
+              stringifyDouble(right.toString());
+        }
+
+        throw new RuntimeError(expr.operator,
+            "Operands must be two numbers, two strings, or one of them must be a string.");
       case TokenType.STAR:
         checkNumberOperands(expr.operator, left, right);
         return (double) left * (double) right;
@@ -72,6 +80,14 @@ class Interpreter implements Expr.Visitor<Object> {
 
     // Unreachable.
     return null;
+  }
+
+  private String stringifyDouble(String text) {
+    if (text.endsWith(".0")) {
+      text = text.substring(0, text.length() - 2);
+    }
+
+    return text;
   }
 
   @Override
