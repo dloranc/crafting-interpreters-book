@@ -149,7 +149,7 @@ class Parser {
   }
 
   private Expr ternary_branches() {
-    Expr expr = expression();
+    Expr expr = equality();
 
     while (match(TokenType.COLON)) {
       Token operator = previous();
