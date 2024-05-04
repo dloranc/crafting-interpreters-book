@@ -1,5 +1,6 @@
 package com.craftinginterpreters.lox;
 
+import com.craftinginterpreters.lox.Expr.Logical;
 import com.craftinginterpreters.lox.Stmt.If;
 
 class ReversePolishNotationAstPrinter implements Expr.Visitor<String>, Stmt.Visitor<String> {
@@ -23,6 +24,12 @@ class ReversePolishNotationAstPrinter implements Expr.Visitor<String>, Stmt.Visi
       return "nil";
     }
     return expr.value.toString();
+  }
+
+  @Override
+  public String visitLogicalExpr(Logical expr) {
+    // TODO Auto-generated method stub
+    throw new UnsupportedOperationException("Unimplemented method 'visitLogicalExpr'");
   }
 
   @Override

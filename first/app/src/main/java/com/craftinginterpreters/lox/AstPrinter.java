@@ -2,6 +2,7 @@ package com.craftinginterpreters.lox;
 
 import java.util.List;
 
+import com.craftinginterpreters.lox.Expr.Logical;
 import com.craftinginterpreters.lox.Stmt.If;
 
 class AstPrinter implements Expr.Visitor<String>, Stmt.Visitor<String> {
@@ -36,6 +37,13 @@ class AstPrinter implements Expr.Visitor<String>, Stmt.Visitor<String> {
     }
 
     return expr.value.toString();
+  }
+
+  @Override
+  public String visitLogicalExpr(Logical expr) {
+    return expr.left.accept(this)
+        + " " + expr.operator.lexeme + " "
+        + expr.right.accept(this);
   }
 
   @Override
