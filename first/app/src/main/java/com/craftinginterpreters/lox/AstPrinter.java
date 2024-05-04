@@ -1,6 +1,18 @@
 package com.craftinginterpreters.lox;
 
-class AstPrinter implements Expr.Visitor<String> {
+import java.util.List;
+
+class AstPrinter implements Expr.Visitor<String>, Stmt.Visitor<String> {
+  String print(List<Stmt> statements) {
+    StringBuilder builder = new StringBuilder();
+
+    for (Stmt statement : statements) {
+      builder.append(statement.accept(this));
+    }
+
+    return builder.toString();
+  }
+
   String print(Expr expr) {
     return expr.accept(this);
   }
@@ -20,12 +32,63 @@ class AstPrinter implements Expr.Visitor<String> {
     if (expr.value == null) {
       return "nil";
     }
+
     return expr.value.toString();
   }
 
   @Override
   public String visitUnaryExpr(Expr.Unary expr) {
     return parenthesize(expr.operator.lexeme, expr.right);
+  }
+
+  @Override
+  public String visitVariableExpr(Expr.Variable expr) {
+    return expr.name.lexeme;
+  }
+
+  @Override
+  public String visitAssignExpr(Expr.Assign expr) {
+    return expr.name.lexeme + " = " + expr.value.accept(this);
+  }
+
+  @Override
+  public String visitBlockStmt(Stmt.Block block) {
+    StringBuilder builder = new StringBuilder();
+
+    builder.append("{");
+
+    for (Stmt statement : block.statements) {
+      builder.append(statement.accept(this));
+    }
+
+    builder.append("}");
+
+    return builder.toString();
+  }
+
+  @Override
+  public String visitExpressionStmt(Stmt.Expression stmt) {
+    return stmt.expression.accept(this) + ";";
+  }
+
+  @Override
+  public String visitPrintStmt(Stmt.Print stmt) {
+    return "print " + stmt.expression.accept(this) + ";";
+  }
+
+  @Override
+  public String visitVarStmt(Stmt.Var stmt) {
+    StringBuilder builder = new StringBuilder();
+    builder.append("var ");
+    builder.append(stmt.name.lexeme);
+
+    if (stmt.initializer != null) {
+      builder.append(" = ");
+      builder.append(stmt.initializer.accept(this));
+    }
+    builder.append(";");
+
+    return builder.toString();
   }
 
   private String parenthesize(String name, Expr... exprs) {

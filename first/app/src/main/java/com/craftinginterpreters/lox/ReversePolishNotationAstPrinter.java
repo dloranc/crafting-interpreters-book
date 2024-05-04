@@ -1,6 +1,6 @@
 package com.craftinginterpreters.lox;
 
-class ReversePolishNotationAstPrinter implements Expr.Visitor<String> {
+class ReversePolishNotationAstPrinter implements Expr.Visitor<String>, Stmt.Visitor<String> {
   String print(Expr expr) {
     return expr.accept(this);
   }
@@ -26,6 +26,42 @@ class ReversePolishNotationAstPrinter implements Expr.Visitor<String> {
   @Override
   public String visitUnaryExpr(Expr.Unary expr) {
     return parenthesize(expr.operator.lexeme, expr.right);
+  }
+
+  @Override
+  public String visitVariableExpr(Expr.Variable expr) {
+    // TODO Auto-generated method stub
+    throw new UnsupportedOperationException("Unimplemented method 'visitVariableExpr'");
+  }
+
+  @Override
+  public String visitAssignExpr(Expr.Assign expr) {
+    // TODO Auto-generated method stub
+    throw new UnsupportedOperationException("Unimplemented method 'visitAssignExpr'");
+  }
+
+  @Override
+  public String visitBlockStmt(Stmt.Block stmt) {
+    // TODO Auto-generated method stub
+    throw new UnsupportedOperationException("Unimplemented method 'visitBlockStmt'");
+  }
+
+  @Override
+  public String visitExpressionStmt(Stmt.Expression stmt) {
+    // TODO Auto-generated method stub
+    throw new UnsupportedOperationException("Unimplemented method 'visitExpressionStmt'");
+  }
+
+  @Override
+  public String visitPrintStmt(Stmt.Print stmt) {
+    // TODO Auto-generated method stub
+    throw new UnsupportedOperationException("Unimplemented method 'visitPrintStmt'");
+  }
+
+  @Override
+  public String visitVarStmt(Stmt.Var stmt) {
+    // TODO Auto-generated method stub
+    throw new UnsupportedOperationException("Unimplemented method 'visitVarStmt'");
   }
 
   private String parenthesize(String name, Expr... exprs) {
