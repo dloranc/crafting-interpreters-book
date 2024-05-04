@@ -119,11 +119,11 @@ class Parser {
   }
 
   private Expr assignment() {
-    Expr expr = ternary();
+    Expr expr = or();
 
     if (match(TokenType.EQUAL)) {
       Token equals = previous();
-      Expr value = assignment();
+      Expr value = equality();
 
       if (expr instanceof Expr.Variable) {
         Token name = ((Expr.Variable) expr).name;
@@ -131,30 +131,6 @@ class Parser {
       }
 
       error(equals, "Invalid assignment target.");
-    }
-
-    return expr;
-  }
-
-  private Expr ternary() {
-    Expr expr = or();
-
-    while (match(TokenType.QUESTION_MARK)) {
-      Token operator = previous();
-      Expr right = ternary_branches();
-      expr = new Expr.Binary(expr, operator, right);
-    }
-
-    return expr;
-  }
-
-  private Expr ternary_branches() {
-    Expr expr = equality();
-
-    while (match(TokenType.COLON)) {
-      Token operator = previous();
-      Expr right = equality();
-      expr = new Expr.Binary(expr, operator, right);
     }
 
     return expr;
