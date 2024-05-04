@@ -82,13 +82,13 @@ public class Lox {
       }
 
       interpreter.interpret(statements);
+
+      // print abstract syntax tree
+      // System.out.println(new AstPrinter().print(statements));
+
+      // print Reverse Polish Notation
+      // System.out.println(new ReversePolishNotationAstPrinter().print(statements));
     }
-
-    // print abstract syntax tree
-    // System.out.println(new AstPrinter().print(statements));
-
-    // print Reverse Polish Notation
-    // System.out.println(new ReversePolishNotationAstPrinter().print(statements));
   }
 
   static void error(int line, String message) {
