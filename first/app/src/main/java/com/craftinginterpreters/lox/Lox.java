@@ -55,14 +55,34 @@ public class Lox {
     Scanner scanner = new Scanner(source);
     List<Token> tokens = scanner.scanTokens();
     Parser parser = new Parser(tokens);
-    List<Stmt> statements = parser.parse();
 
-    // Stop if there was a syntax error.
-    if (hadError) {
-      return;
+    boolean hasStatements = false;
+    for (Token token : tokens) {
+      if (token.type == TokenType.SEMICOLON) {
+        hasStatements = true;
+        break;
+      }
     }
 
-    interpreter.interpret(statements);
+    if (!hasStatements) {
+      Expr expression = parser.parseExpression();
+
+      // Stop if there was a syntax error.
+      if (hadError) {
+        return;
+      }
+
+      interpreter.interpret(expression);
+    } else {
+      List<Stmt> statements = parser.parse();
+
+      // Stop if there was a syntax error.
+      if (hadError) {
+        return;
+      }
+
+      interpreter.interpret(statements);
+    }
 
     // print abstract syntax tree
     // System.out.println(new AstPrinter().print(statements));
