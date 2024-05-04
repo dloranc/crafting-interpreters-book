@@ -25,7 +25,7 @@ class Environment {
 
       if (value instanceof Undefined) {
         throw new RuntimeError(name,
-            "Unitialized variable '" + name.lexeme + "'.");
+            "Uninitialized variable '" + name.lexeme + "'.");
       }
 
       return value;
