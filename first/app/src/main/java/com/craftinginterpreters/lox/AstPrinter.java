@@ -2,9 +2,6 @@ package com.craftinginterpreters.lox;
 
 import java.util.List;
 
-import com.craftinginterpreters.lox.Expr.Logical;
-import com.craftinginterpreters.lox.Stmt.If;
-
 class AstPrinter implements Expr.Visitor<String>, Stmt.Visitor<String> {
   String print(List<Stmt> statements) {
     StringBuilder builder = new StringBuilder();
@@ -40,7 +37,7 @@ class AstPrinter implements Expr.Visitor<String>, Stmt.Visitor<String> {
   }
 
   @Override
-  public String visitLogicalExpr(Logical expr) {
+  public String visitLogicalExpr(Expr.Logical expr) {
     return expr.left.accept(this)
         + " " + expr.operator.lexeme + " "
         + expr.right.accept(this);
@@ -82,7 +79,7 @@ class AstPrinter implements Expr.Visitor<String>, Stmt.Visitor<String> {
   }
 
   @Override
-  public String visitIfStmt(If stmt) {
+  public String visitIfStmt(Stmt.If stmt) {
     StringBuilder builder = new StringBuilder();
     builder.append("if (");
     builder.append(stmt.condition.accept(this));
