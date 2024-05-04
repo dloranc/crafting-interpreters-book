@@ -100,6 +100,12 @@ class AstPrinter implements Expr.Visitor<String>, Stmt.Visitor<String> {
   }
 
   @Override
+  public String visitWhileStmt(Stmt.While stmt) {
+    return "while(" + stmt.condition.accept(this) + ")"
+        + stmt.body.accept(this);
+  }
+
+  @Override
   public String visitVarStmt(Stmt.Var stmt) {
     StringBuilder builder = new StringBuilder();
     builder.append("var ");
