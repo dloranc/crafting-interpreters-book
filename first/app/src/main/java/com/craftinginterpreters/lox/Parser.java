@@ -173,15 +173,7 @@ class Parser {
   }
 
   private Expr expression() {
-    Expr expr = assignment();
-
-    while (match(TokenType.COMMA)) {
-      Token operator = previous();
-      Expr right = assignment();
-      expr = new Expr.Binary(expr, operator, right);
-    }
-
-    return expr;
+    return assignment();
   }
 
   private Expr assignment() {
