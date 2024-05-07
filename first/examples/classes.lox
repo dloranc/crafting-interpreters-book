@@ -6,3 +6,12 @@ var c = WithProperties();
 c.test = 10;
 
 print c.test;
+
+
+class Bacon {
+  eat() {
+    print "Crunch crunch crunch!";
+  }
+}
+
+Bacon().eat();
