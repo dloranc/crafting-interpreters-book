@@ -1,0 +1,6 @@
+class WithProperties {
+}
+
+var c = WithProperties();
+c.test = 10;
+print c.test;
