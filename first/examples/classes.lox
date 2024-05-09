@@ -15,3 +15,14 @@ class Bacon {
 }
 
 Bacon().eat();
+
+class WithThis {
+  useThis() {
+    return this.test;
+  }
+}
+
+var withThis = WithThis();
+withThis.test = "'this' works!";
+
+print withThis.useThis();
