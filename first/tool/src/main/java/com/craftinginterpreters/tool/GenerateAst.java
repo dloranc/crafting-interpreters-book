@@ -59,7 +59,6 @@ public class GenerateAst {
     }
 
     // The base accept() method.
-    writer.println();
     writer.println("  abstract <R> R accept(Visitor<R> visitor);");
 
     writer.println("}");
@@ -69,9 +68,14 @@ public class GenerateAst {
   private static void defineVisitor(PrintWriter writer, String baseName, List<String> types) {
     writer.println("  interface Visitor<R> {");
 
+    int count = 1;
     for (String type : types) {
       String typeName = type.split(":")[0].trim();
       writer.println("    R visit" + typeName + baseName + "(" + typeName + " " + baseName.toLowerCase() + ");");
+      if (count < types.size()) {
+        writer.println();
+      }
+      count++;
     }
 
     writer.println("  }");
@@ -111,5 +115,6 @@ public class GenerateAst {
     }
 
     writer.println("  }");
+    writer.println();
   }
 }
