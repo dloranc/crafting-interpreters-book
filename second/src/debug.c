@@ -28,8 +28,6 @@ int disassembleInstruction(Chunk *chunk, int offset)
   {
   case OP_RETURN:
     return simpleInstruction("OP_RETURN", offset);
-    break;
-
   default:
     printf("Unknown opcode %d\n", instruction);
     return offset + 1;
