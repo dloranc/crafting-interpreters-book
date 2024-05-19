@@ -35,6 +35,18 @@ void freeVM()
 {
 }
 
+void push(Value value)
+{
+  *vm.stackTop = value;
+  vm.stackTop++;
+}
+
+Value pop()
+{
+  vm.stackTop--;
+  return *vm.stackTop;
+}
+
 static Value peek(int distance)
 {
   return vm.stackTop[-1 - distance];
@@ -151,16 +163,4 @@ InterpretResult interpret(const char *source)
 
   freeChunk(&chunk);
   return result;
-}
-
-void push(Value value)
-{
-  *vm.stackTop = value;
-  vm.stackTop++;
-}
-
-Value pop()
-{
-  vm.stackTop--;
-  return *vm.stackTop;
 }
