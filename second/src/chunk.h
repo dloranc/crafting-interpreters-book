@@ -10,6 +10,9 @@ typedef enum
   OP_NIL,
   OP_TRUE,
   OP_FALSE,
+  OP_EQUAL,
+  OP_GREATER,
+  OP_LESS,
   OP_ADD,
   OP_SUBTRACT,
   OP_MULTIPLY,
@@ -24,7 +27,7 @@ typedef struct
   int count;
   int capacity;
   uint8_t *code;
-  int* lines;
+  int *lines;
   ValueArray constants;
 } Chunk;
 
