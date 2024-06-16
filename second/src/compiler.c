@@ -365,6 +365,7 @@ static void binary(__attribute__((unused)) bool canAssign)
     break;
   case TOKEN_LESS_EQUAL:
     emitBytes(OP_GREATER, OP_NOT);
+    break;
   case TOKEN_PLUS:
     emitByte(OP_ADD);
     break;
