@@ -189,7 +189,7 @@ static InterpretResult run()
   for (;;)
   {
 
-#ifndef DEBUG_TRACE_EXECUTION
+#ifdef DEBUG_TRACE_EXECUTION
     printf("          ");
     for (Value *slot = vm.stack; slot < vm.stackTop; slot++)
     {
