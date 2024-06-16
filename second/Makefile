@@ -1,10 +1,11 @@
 CC = gcc
-CFLAGS = -Wall -Wextra -g
+CFLAGS = -Wall -Wextra -g -MMD -MP
 SRCDIR = src
 BINDIR = bin
 
 SOURCES := $(wildcard $(SRCDIR)/*.c)
 OBJECTS := $(SOURCES:$(SRCDIR)/%.c=$(BINDIR)/%.o)
+DEPENDS := $(OBJECTS:.o=.d)
 EXECUTABLE = $(BINDIR)/main
 
 all: $(EXECUTABLE)
@@ -12,7 +13,7 @@ all: $(EXECUTABLE)
 $(EXECUTABLE): $(OBJECTS)
 	$(CC) $(CFLAGS) $^ -o $@
 
-$(OBJECTS): $(BINDIR)/%.o : $(SRCDIR)/%.c | $(BINDIR)
+$(BINDIR)/%.o: $(SRCDIR)/%.c | $(BINDIR)
 	$(CC) $(CFLAGS) -c $< -o $@
 
 $(BINDIR):
@@ -23,3 +24,5 @@ run: $(EXECUTABLE)
 
 clean:
 	rm -rf $(BINDIR)
+
+-include $(DEPENDS)
