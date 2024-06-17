@@ -465,7 +465,7 @@ static uint8_t argumentList()
   return argCount;
 }
 
-static void call(bool canAssign)
+static void call(__attribute__((unused)) bool canAssign)
 {
   uint8_t argCount = argumentList();
   emitBytes(OP_CALL, argCount);

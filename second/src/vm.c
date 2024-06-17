@@ -11,7 +11,7 @@
 
 VM vm;
 
-static Value clockNative(int argCount, Value *args)
+static Value clockNative(__attribute__((unused)) int argCount, __attribute__((unused)) Value *args)
 {
   return NUMBER_VAL((double)clock() / CLOCKS_PER_SEC);
 }
