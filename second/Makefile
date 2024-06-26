@@ -1,5 +1,5 @@
 CC = gcc
-CFLAGS = -Wall -Wextra -g -MMD -MP
+CFLAGS = -Wall -Wextra -g -MMD -MP -O3
 SRCDIR = src
 BINDIR = bin
 
