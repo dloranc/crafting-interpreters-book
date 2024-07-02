@@ -120,7 +120,7 @@ class Scanner {
         break;
 
       case '/':
-        if (peekNext() == '/') {
+        if (peek() == '/') {
           // A comment goes until the end of the line.
           while (peek() != '\n' && !isAtEnd())
             advance();
@@ -160,12 +160,19 @@ class Scanner {
   private void multilineComment() {
     advance();
 
-    while (peek() != '*' && !isAtEnd()) {
+    while (!isAtEnd()) {
       if (peek() == '\n') {
         line++;
       }
+
+      if (peek() == '*' && peekNext() == '/') {
+        break;
+      }
+
       advance();
     }
+
+    advance();
 
     if (isAtEnd()) {
       Lox.error(line, "Unterminated multiline comment.");
@@ -177,10 +184,6 @@ class Scanner {
     if (isAtEnd()) {
       Lox.error(line, "Unterminated multiline comment.");
       return;
-    }
-
-    if (peek() == '/') {
-      advance();
     }
   }
 
