@@ -108,6 +108,24 @@ static void skipWhitespace()
         while (peek() != '\n' && !isAtEnd())
           advance();
       }
+      else if (peekNext() == '*')
+      {
+        advance(); // skip /
+        advance(); // skip *
+
+        while (!isAtEnd())
+        {
+          if (peek() == '*' && peekNext() == '/')
+          {
+            break;
+          }
+
+          advance();
+        }
+
+        advance(); // skip *
+        advance(); // skip /
+      }
       else
       {
         return;
